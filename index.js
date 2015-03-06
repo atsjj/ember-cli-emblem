@@ -20,35 +20,15 @@ module.exports = {
     // Ensure that broccoli-emblem-compiler is not processing embl or emblem files.
     registry.remove('template', 'broccoli-emblem-compiler');
 
-    registry.add('template', {
+    var plugin = {
       name: 'ember-cli-emblem-hbs-printer',
-      ext: ['embl', 'emblem'],
+      ext: 'test',
       toTree: function(tree) {
         return emblemTemplateCompiler(tree);
       }
-    });
-  },
+    };
 
-  /**
-    Organizes the app or addon registry plugin array so that the
-    `ember-cli-emblem-hbs-printer` is always ran before a Handlebars processor.
-    @method
-    @private
-    @param {Object} registry A registry model for the app or addon.
-  */
-  organizePreprocessorRegistry: function(registry) {
-    var embAt = registeredIndexOf(registry, 'ember-cli-emblem-hbs-printer');
-    var hbsAt = Math.max(
-      registeredIndexOf(registry, 'ember-cli-htmlbars'),
-      registeredIndexOf(registry, 'broccoli-ember-hbs-template-compiler')
-    );
-
-    if (hbsAt >= 0 && embAt >= 0 && embAt > hbsAt) {
-      var temp = registry.registry.template[hbsAt];
-
-      registry.registry.template[hbsAt] = registry.registry.template[embAt];
-      registry.registry.template[embAt] = temp;
-    }
+    registry.add('template', plugin);
   },
 
   included: function (app) {
@@ -57,20 +37,5 @@ module.exports = {
     if (this.shouldSetupRegistryInIncluded()) {
       this.setupPreprocessorRegistry('parent', app.registry);
     }
-
-    // Ensure that this preprocessor runs before any hbs preprocessor.
-    this.organizePreprocessorRegistry(app.registry);
   }
 };
-
-function registeredIndexOf(registry, name) {
-  var registered = registry.registeredForType('template');
-
-  for (var i = 0, l = registered.length; i < l; i++) {
-    if (registered[i].name === name) {
-      return i;
-    }
-  }
-
-  return -1;
-}

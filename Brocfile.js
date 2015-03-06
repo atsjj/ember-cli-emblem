@@ -5,6 +5,8 @@ var EmberAddon = require('ember-cli/lib/broccoli/ember-addon');
 
 var app = new EmberAddon();
 
+console.log(app.registry.extensionsForType('template'));
+
 // Use `app.import` to add additional libraries to the generated
 // output files.
 //
