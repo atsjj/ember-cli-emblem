@@ -1,6 +1,6 @@
 {
   "name": "ember-cli-emblem",
-  "version": "0.2.7",
+  "version": "2.0.0-beta.1",
   "description": "An ember-cli addon for Emblem.js templates.",
   "directories": {
     "doc": "doc",
@@ -45,7 +45,7 @@
   },
   "dependencies": {
     "broccoli-filter": "^0.1.11",
-    "emblem": "^0.5.0",
+    "emblem": "atsjj/emblem.js#v2.0.0-beta.1",
     "ember-cli-version-checker": "^1.0.2",
     "lodash": "^3.6.0"
   }
